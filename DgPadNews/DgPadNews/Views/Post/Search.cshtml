@@ -1,0 +1,90 @@
+﻿@using Common
+@model IEnumerable<Common.Post>
+@{
+    ViewData["Title"] = "Search";
+}
+
+<!-- CSS Libraries -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+<!-- Stylesheet -->
+<link href="css/style.css" rel="stylesheet">
+
+
+<html>
+    <body>
+        <br />
+        <h2 >Search Results for: <span style="color:#31bca4">"@ViewBag.Search"</span></h2>   
+        <!-- Top News Start-->
+        <div class="top-news">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12 tn-right">
+                        <div class="row">
+                           @foreach (var item in Model.OrderByDescending(x=>x.CreationDate))
+                           {
+
+                            <div class="col-md-4" style="width:370px;height:220px">
+                                @if (item.VideoLink != null)
+                                {
+                                    <div class="tn-img" style="width:355px;height:190px" >
+                                         <iframe width="355" height="190" src="@item.VideoLink" frameborder="0" allow="accelerometer;
+                                                 autoplay; clipboard-write;   encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                                         </iframe> 
+                                         <div class="tn-content">
+                                            <div class="tn-content-inner">
+                                                <a class="tn-date" ><i class="far fa-clock"></i>@Html.DisplayFor(modelItem => item.CreationDate)</a>
+                                                <a class="tn-title" href="/Post/Details/@item.PostId" style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width:290px;"> 
+                                                    @Html.DisplayFor(modelItem => item.Title)</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                     <div class="tn-img" style="width:355px;height:190px" >
+                                        <img src="https://localhost:7125/UploadedPhotos/@item.Image" alt="Images"/>
+                                        <div class="tn-content">
+                                            <div class="tn-content-inner">
+                                                <a class="tn-date" ><i class="far fa-clock"></i>@Html.DisplayFor(modelItem => item.CreationDate)</a>
+                                                <a class="tn-title" href="/Post/Details/@item.PostId" style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width:290px;"> 
+                                                    @Html.DisplayFor(modelItem => item.Title)</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                           }
+                        </div>
+                    </div>
+
+                   
+                </div>
+            </div>
+        </div>
+        <!-- Top News End-->
+        <div> 
+        <br />
+        <a class="btn btn-outline-success" asp-action="Index"> Main Page </a>
+        </div>
+
+   </body>
+   <!-- Loader -->
+         <div id="LoadingContainer">
+              <div class="loadingspinner">
+                <div id="square1"></div>
+                <div id="square2"></div>
+                <div id="square3"></div>
+                <div id="square4"></div>
+                <div id="square5"></div>
+              </div>
+        </div>
+</html>
+ <script>
+
+         $(window).on('load', function () {
+             $('#LoadingContainer').hide();
+         }) 
+ </script>

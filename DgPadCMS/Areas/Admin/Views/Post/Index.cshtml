@@ -1,0 +1,129 @@
+﻿@using Common
+@model IEnumerable<Common.Post>
+
+@{
+    ViewData["Title"] = "Post";
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<br />
+<div class="buttons-wrapper">
+    <div class="row" style="justify-content: center;">
+           <h4>Choose a Post Type to filter:</h4>
+          <button class="success" style="padding:3px;margin-right:7px;" id="all">All</button>
+
+         @foreach (PostType item in ViewBag.Ptypes) 
+         {
+            <button class="success" value="@item.PostTypeId" id="@item.PostTypeId">
+                @item.Title
+            </button>
+         }
+        
+    </div>
+    <hr class="border border-success border-1 opacity-10" style="width:80%">
+
+    <h6  id="note" style="color:lightgray"><i>Note: To Add a Post, you must pick a Post Type.</i></h6>
+
+</div>
+<br />
+<br />
+<p>
+
+       <a id="CreatingPost" asp-action="Create" >
+       <i class="bi bi-plus-circle"></i> <b>Add Post</b>
+       </a>
+      
+</p>
+<table class="table sortable" id="table">
+    <thead>
+        <tr class="table-success">
+            <th id="Title">
+                Title
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Date & Time
+            </th>
+            <th>
+                Summary
+            </th>
+            <th></th>
+            
+           
+        </tr>
+    </thead>
+    <tbody id="tbody">
+@foreach (var item in Model) {
+        <tr class="table-light">
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorFirst)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorLast)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Summary)
+            </td>
+            <td style="display:none" id="Target"> 
+                @Html.DisplayFor(modelItem => item.PostTypeId)
+            </td>
+          
+            <td>
+                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@item.PostId" onclick="return confirm('Are you sure you want to delete this item?');">
+                    <i class="bi bi-trash3-fill"></i> </a> |
+                <a class="btn btn-sm btn-outline-warning" asp-action="Edit" asp-route-id="@item.PostId"><i class="bi bi-pencil-square"></i></a> |
+                <a class="btn btn-sm btn-outline-primary" asp-action="Details" asp-route-id="@item.PostId"><i class="bi bi-list-task"></i> </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<script type="text/javascript">
+
+ 
+    //================================================================//
+  const titleCase = val => val.slice(0, 1).toUpperCase() + val.slice(1);
+  $(function() 
+  {
+      $("#CreatingPost").hide();
+    $(".success").on("click", function() {
+        if (this.id === "all") 
+        {
+            $("#CreatingPost").hide();
+             $("#table tr").show();
+             $("#note").show();
+        } 
+        else 
+        {    $("#note").hide();
+            $("#CreatingPost").show();
+            $("#tbody tr").hide();
+            const rows = $("#table tr").find("#Target");
+            const val = titleCase(this.id);
+            rows.filter(":contains(" + val + ")").closest(".table-light").show();
+
+            var PostypeID = $(this).attr("value");
+            console.log(PostypeID);
+
+            document.getElementById("CreatingPost").href = "https://localhost:7125/Admin/Post/Create/" + PostypeID;
+        }
+
+    });
+
+  }); 
+</script>

@@ -1,0 +1,182 @@
+﻿@model DgPadCMS.Models.createModel
+
+@{
+    ViewData["Title"] = "Create";
+    var localDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T'); 
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+
+<h2>Create a Post</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form asp-action="Create" class="row g-3" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CreationDate"/>
+            <div class="col-md-6">
+                <label asp-for="AuthorFirst" class="control-label">Author First Name <span  style="color:red"> *</span></label>
+                <input asp-for="AuthorFirst" class="form-control" />
+                <span asp-validation-for="AuthorFirst" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="AuthorLast" class="control-label">Author Last Name <span  style="color:red"> *</span></label>
+                <input asp-for="AuthorLast" class="form-control" />
+                <span asp-validation-for="AuthorLast" class="text-danger"></span>
+            </div>
+            <div class="col-6">
+                <label asp-for="PostTypeId" class="control-label">PostType <span  style="color:red"> *</span></label>
+                <select asp-for="PostTypeId" id="categoryId" class="form-control" asp-items="@ViewBag.PostTypeId">
+                </select>
+                <span asp-validation-for="PostTypeId" class="text-danger"></span>
+            </div>
+            <div class="col-6">
+                <label asp-for="CategoryId" class="control-label">Content Category <span  style="color:red"> *</span></label>
+                <select asp-for="CategoryId"  class="form-control" asp-items="@ViewBag.Category">
+                <option value="0">Choose a Category</option>
+                </select>
+                <span asp-validation-for="PostTypeId" class="text-danger"></span>
+            </div>
+            <div class="col-8">
+                <label asp-for="Title" class="control-label">Title <span  style="color:red"> *</span></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+
+                <label asp-for="Article" class="control-label">Article <span  style="color:red"> *</span></label>
+                <textarea asp-for="Article" class="form-control"></textarea>
+                <span asp-validation-for="Article" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="Summary" class="control-label">Summary <span  style="color:red"> *</span></label>
+                <textarea  asp-for="Summary" class="form-control" > </textarea>
+                <span asp-validation-for="Summary" class="text-danger"></span>
+            </div>
+
+            <div class="col-6">
+                <label asp-for="TermId" class="control-label" style="color:white">Term <span  style="color:red"> *</span></label>
+                <div id="TermDrop">
+                <select asp-for="TermId" id="TermId" class="form-control" placeholder="Pick a maximum of 5 Terms" multiple>
+                    
+                </select>
+                <span asp-validation-for="TermId" class="text-danger"></span>
+                </div>
+            </div>
+   
+        <br>        
+        <br>
+        <div class="col-12" id="ImageTab">
+             <label asp-for="Image" class="control-label">Image <span style="color:grey;font-size:13px"> <i>(optional)</i></span></label>
+             <input asp-for="ImageUpload" class="form-control" />
+             <img src="" id="imgpreview" class="pt-2" alt="" />
+             <span asp-validation-for="ImageUpload" class="text-danger"></span>
+        </div>
+         <div class="col-12" id="VideoTab">
+                <label asp-for="VideoLink" class="control-label">Youtube Video Link <span  style="color:red"> *</span></label>
+                <input asp-for="VideoLink" id="youtubeLink" class="form-control" />
+                <span asp-validation-for="VideoLink" class="text-danger"></span>
+         </div>
+
+         <br />
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+        </form>
+    </div>
+</div>
+<br />
+<div>
+   <button type="button" class="btn btn-danger">
+       <a asp-action="Index">Back to List</a>
+       </button>
+</div>
+
+@section Scripts 
+{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+ <script type="text/javascript">
+        CKEDITOR.replace('Article',
+        {
+            entities: false,
+            basicEntities: false,
+            entities_greek: false,
+            entities_latin: false,
+            htmlDecodeOutput: true,
+        });
+
+        $("#ImageUpload").change(function () {
+                readURL(this);
+        });
+
+        $("#PostTypeId").change(function () {
+                if(this.val=="Video")
+                {
+                    $('#ImageTab').hide();
+                    $('#VideoTab').show();
+                }
+                else
+                {
+                    $('#VideoTab').hide();
+                    $('#ImageTab').show();
+                }
+        });
+
+           
+       //====================================================//          
+       $(document).ready( function () {
+
+            $.ajax({
+                url: '@Url.Action("GetSubCategoryByCategoryId")',
+                type: 'POST',
+                data: {
+                    categoryId: $('#categoryId').val(),
+                },
+                success: function(data) 
+                {
+                    var ptypeSelected = $('#categoryId').find(":selected").text();
+                    data = JSON.parse(data);
+                    var toAppend = '';
+
+               
+                    for (var i = 0; i<data.length; i++) 
+                    {
+                    
+                        var y = JSON.stringify(data[i]);
+                        console.log(y);
+                        var json = JSON.parse(y);
+                
+                        console.log(json);
+                        toAppend += '<option value="' + json["id"].toString() + '">'+json["name"]+'</option>';
+                   
+                    }
+                    $('#TermId').append(toAppend);
+
+                    var multipleCancelButton =new Choices('#TermId', { removeItemButton: true,  maxItemCount:5,  searchResultLimit:15, renderChoiceLimit:15  });   
+                     if(ptypeSelected == "Video")
+                     {
+                          $('#ImageTab').hide();
+                          $('#VideoTab').show();
+                    }
+                    else
+                    {
+                        $('#VideoTab').hide();
+                        $('#ImageTab').show();
+                     }
+                     
+       
+        
+                },
+                error: function () 
+                {  }
+          
+
+            });
+        });
+
+     
+ </script>
+}

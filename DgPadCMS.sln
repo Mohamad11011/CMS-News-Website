@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgPadCMS", "DgPadCMS\DgPadCMS.csproj", "{AF8A1CAE-02C4-45ED-AF95-19466B75E972}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DgPadNews", "DgPadNews\DgPadNews\DgPadNews.csproj", "{09F3FFB0-4747-4052-AD62-1610270D2153}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{48EA9AD2-FB3B-42D8-86BA-C06FA01329DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF8A1CAE-02C4-45ED-AF95-19466B75E972}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF8A1CAE-02C4-45ED-AF95-19466B75E972}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF8A1CAE-02C4-45ED-AF95-19466B75E972}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF8A1CAE-02C4-45ED-AF95-19466B75E972}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09F3FFB0-4747-4052-AD62-1610270D2153}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F3FFB0-4747-4052-AD62-1610270D2153}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F3FFB0-4747-4052-AD62-1610270D2153}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F3FFB0-4747-4052-AD62-1610270D2153}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48EA9AD2-FB3B-42D8-86BA-C06FA01329DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48EA9AD2-FB3B-42D8-86BA-C06FA01329DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48EA9AD2-FB3B-42D8-86BA-C06FA01329DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48EA9AD2-FB3B-42D8-86BA-C06FA01329DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2EA5E9D8-0965-428F-8E2D-8C974BA4F182}
+	EndGlobalSection
+EndGlobal

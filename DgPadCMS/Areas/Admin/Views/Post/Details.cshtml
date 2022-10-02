@@ -1,0 +1,92 @@
+﻿@using Common
+@model Common.Post
+
+@{
+    ViewData["Title"] = "Details";
+}
+<div class="blog-single gray-bg">
+        <div class="container">
+            <div class="row align-items-start">
+                <div class="col-lg-8 m-15px-tb">
+                    <article class="article">
+                        <div class="article-img">
+                            <img src="~/UploadedPhotos/@Model.Image" title="" alt="">
+                        </div>
+                        <div class="article-title">
+                            <h6><a href="#">Article</a></h6>
+                            <h2>@Html.DisplayFor(model => model.Title)</h2>
+                            <div class="media">
+                                <div class="media-body">
+                                    <label>Creation Date</label>
+                                    <span>@Html.DisplayFor(model => model.CreationDate)</span>
+                                </div>
+                            </div>
+                             <div class="media">
+                                <div class="media-body">
+                                    <label>Category</label>
+                                @foreach (var term in ViewBag.CategoryFound)
+                                {
+                                    <span>@term.CategoryName</span>
+                                }
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-content">
+                            <span id="textDetails">@Html.Raw(Model.Article)</span>
+                        </div>
+                        <div class="nav tag-cloud">
+                             @foreach (Term term in ViewBag.PTerm) 
+                                { <a style="color:white;">#@term.Name </a>}
+                        </div>
+                    </article>
+                   <div class="contact-form article-comment">
+                        <h4>Summary</h4>
+                        <span id="textDetails">@Html.DisplayFor(model => model.Summary)</span>
+                    </div>
+                </div>
+                <div class="col-lg-4 m-15px-tb blog-aside">
+                    <!-- Author -->
+                    <div class="widget widget-author">
+                        <div class="widget-title">
+                            <h3>Author</h3>
+                        </div>
+                        <div class="widget-body">
+                            <div class="media align-items-center">
+                                <div class="avatar">
+                                    <img src="~/Images/avatar.png" style="width:60px;height:60px" title="" alt="">
+                                </div>
+                                <div class="media-body">
+                                    <span id="textDetails"><b> First Name:</b>  @Html.DisplayFor(model => model.AuthorFirst)</span>
+                                    <br />
+                                    <span id="textDetails"><b> Last Name:</b>  @Html.DisplayFor(model => model.AuthorLast)</span>
+                                </div>
+                            </div>
+                             <span id="textDetails">I am the Author/Editor of this Post.</span>
+                        </div>
+                    </div>
+                    <!-- End Author -->
+                    <!-- widget Tags -->
+                    <div class="widget widget-tags">
+                        <div class="widget-title">
+                            <h3>Term Tags</h3>
+                        </div>
+                        <div class="widget-body">
+                            <div class="nav tag-cloud">
+                            @foreach (Term tag in ViewBag.PTerm) 
+                            { 
+                                <a href="#">#@tag.Name </a>}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End widget Tags -->
+                </div>
+            </div>
+        </div>
+    
+</div>
+<div> 
+    <br />
+    <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@Model?.PostId">Edit</a> |
+    <a class="btn btn-outline-danger" asp-action="Index">Back to List</a>
+</div>

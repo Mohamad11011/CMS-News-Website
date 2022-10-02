@@ -1,0 +1,169 @@
+﻿@using Common
+@model Common.Post
+@{
+    ViewData["Title"] = "Details";
+    var CurrentId=Model.PostId;
+    int i = 0;
+}
+
+<!-- CSS Libraries -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+<!-- Stylesheet -->
+<link href="css/style.css" rel="stylesheet">
+
+<html>
+    <body>
+         <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a>Home</a></li>
+                    <li class="breadcrumb-item"><a>News</a></li>
+                    <li class="breadcrumb-item active">News Details</li>
+                    <li class="breadcrumb-item active">@Model.PostId</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+
+        <!-- Single News Start-->
+        <div class="single-news">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        @if(Model.PostTypeId==3)
+                        {
+                             <iframe width="700" height="410" src="@Model.VideoLink" frameborder="0" allow="accelerometer;
+                                     autoplay; clipboard-write;   encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                             </iframe> 
+                        }
+                        else
+                        {
+                        <div class="sn-img" style="border:2px double black;height:410px;width:700px">
+                            <img src="https://localhost:7125/UploadedPhotos/@Model.Image" title="" alt="" style="height:410px;width:700px;">
+                        </div>
+                        }
+                    
+
+                        <div class="sn-content">
+                            <a class="sn-title">@Html.DisplayFor(model => model.Title)</a>
+                            
+                            <a class="sn-date"><i class="far fa-clock"></i> @Html.DisplayFor(model => model.CreationDate)</a>
+                            <h3 style="color:dimgrey"><b>Article</b></h3>
+                            <p>
+                                <span id="textDetails">@Html.Raw(Model.Article)</span>
+                            </p>
+                            <h3 style="color:dimgray"><b>Summary</b></h3>
+                            <p>@Html.DisplayFor(model => model.Summary)</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="sidebar">
+                            <div class="sidebar-widget">
+                                <h2><i class="fas fa-align-justify"></i>Related Tags</h2>
+                                <div class="tags">
+                                    @foreach (Term tag in ViewBag.PTerm) 
+                                    { 
+                                        <a href="/Post/TagFiltering/@tag.TermId">#@tag.Name </a>
+                                    }
+                                </div>
+                            </div>
+                            <div class="sidebar-widget">
+                                <h2><i class="fas fa-align-justify"></i>Category</h2>
+                                <div class="category">
+                                    <ul class="fa-ul">
+                                        @foreach(ContentCategory type in ViewBag.Category)
+                                        {
+                                            <li><span class="fa-li"><i class="far fa-arrow-alt-circle-right"></i></span>
+                                            <a href="/Post/CategoryFiltering/@type.CategoryId"> @type.CategoryName</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <h2><i class="fas fa-align-justify"></i> <b>Ads</b></h2>
+                            <div class="hover-img">
+                                <img src="~/UploadedPhotos/NewPNG.png" alt="Image" style="width:275px;height:255px;">
+                                  <figcaption>
+                                       <a href="https://dgpad.io/">
+                                    <h3>Start Today <br/>Work Tomorrow</h3>
+                                    </a>
+                                  </figcaption>
+                            </div>
+
+                            <div class="top-news" >
+                                <h2><i class="fas fa-align-justify"></i><b> Related News</b></h2>
+                                <div class="col-lg-6 tn-right">
+                                       @foreach (Post item in ViewBag.Posts)
+                                       {
+                                            if (item.PostId != CurrentId && i<4)
+                                            {
+                                                    @if (item.VideoLink !=null)
+                                                    {
+                                                      <div class="tn-img" style="width:300px;height:180px" >
+                                                         <iframe width="300" height="180" src="@item.VideoLink" frameborder="0" allow="accelerometer;
+                                                                 autoplay; clipboard-write;   encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                                                         </iframe> 
+                                                         <div class="tn-content">
+                                                            <div class="tn-content-inner">
+                                                                <a class="tn-date" ><i class="far fa-clock"></i>@Html.DisplayFor(modelItem => item.CreationDate)</a>
+                                                                <a class="tn-title" href="/Post/Details/@item.PostId" style="display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width:290px;"> 
+                                                                    @Html.DisplayFor(modelItem => item.Title)</a>
+                                                            </div>
+                                                         </div>
+                                                       </div>
+                                                       <br />
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="tn-img" style="width:300px;height:180px" >
+                                                         <div class="mn-img" >
+                                                             <img src="https://localhost:7125/UploadedPhotos/@item.Image" alt="Images" style="width:300px;height:180px"/>
+                                                        </div>
+                                                         <div class="tn-content">
+                                                            <div class="tn-content-inner">
+                                                                <a class="tn-date" ><i class="far fa-clock"></i>@Html.DisplayFor(modelItem => item.CreationDate)</a>
+                                                                <a class="tn-title" href="/Post/Details/@item.PostId" style="color:#E47A2E;display:inline-block;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;max-width:290px;"> 
+                                                                    @Html.DisplayFor(modelItem => item.Title)</a>
+                                                            </div>
+                                                         </div>
+                                                       </div>
+                                                       <br />
+                                                        
+                                                    }
+                                                    <br>
+
+                                                i++;
+                                            }
+                                           
+                                       }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Single News End-->
+
+         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    </body>
+    <!-- Loader -->
+        <div id="LoadingContainer">
+              <div class="loadingspinner">
+                <div id="square1"></div>
+                <div id="square2"></div>
+                <div id="square3"></div>
+                <div id="square4"></div>
+                <div id="square5"></div>
+              </div>
+        </div>
+</html>
+ <script>
+
+         $(window).on('load', function () {
+             $('#LoadingContainer').hide();
+         }) 
+ </script>

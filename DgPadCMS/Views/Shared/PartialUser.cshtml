@@ -1,0 +1,13 @@
+﻿
+@if (User?.Identity?.IsAuthenticated ?? false)
+{
+    <li class="navbar-nav navbar-right" style="margin-top:12px">
+    <p class="UserLogged">Hi, @User.Identity.Name </p> 
+    </li>
+    <li class="navbar-nav navbar-right">
+    <a asp-controller="User" asp-action="Logout">
+        <button class="btn btn-success" data-mdb-ripple-color="white" style="font-size:20px"> Log out</button>
+        </a>
+   
+    </li>
+}

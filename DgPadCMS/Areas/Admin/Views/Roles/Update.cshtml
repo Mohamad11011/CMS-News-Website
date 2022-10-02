@@ -1,0 +1,61 @@
+﻿@model DgPadCMS.Models.RoleEdit
+  
+<h2 >Assign Role</h2>
+<br />
+<a asp-action="Index" class="btn btn-outline-danger">Back</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+<br> 
+<p class="fs-6" style="color:slategrey"><i>
+    Note: To Add or Remove,please check | uncheck the correspondent box
+    beside each User then press Save.</i></p>
+<br>
+<form method="post">
+    <input type="hidden" name="roleName" value="@Model.Role.Name" />
+    <input type="hidden" name="roleId" value="@Model.Role.Id" />
+      
+    <h3>Add To @Model.Role.Name</h3>
+    <table class="table" style="width:30%">
+        @if (Model.NonMembers.Count() == 0)
+        {
+            <tr style="table-success">
+                <td style="color:white" colspan="4">All Current User(s) Are @Model.Role.Name (s)</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var user in Model.NonMembers)
+            {
+                <tr class="table-success">
+                    <td>@user.UserName</td>
+                    <td>
+                        <input type="checkbox" name="AddIds" value="@user.Id">
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <hr class="border border-success border-2 opacity-10">
+  
+    <h3>Remove From @Model.Role.Name</h3>
+    <table class="table"  style="width:30%">
+        @if (Model.Members.Count() == 0)
+        {
+            <tr style="table-success">
+                <td style="color:white" colspan="4">No User(s) Are Found</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var user in Model.Members)
+            {
+                <tr class="table-success">
+                    <td>@user.UserName</td>
+                    <td>
+                        <input type="checkbox" name="DeleteIds" value="@user.Id">
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
